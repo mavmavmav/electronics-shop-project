@@ -2,13 +2,11 @@ import csv
 
 
 class Item:
-
     """
     Класс для представления товара в магазине.
     """
     pay_rate = 1.0
     all = []
-
 
     def __init__(self, name: str, price: float, quantity: int) -> None:
         """
@@ -18,11 +16,21 @@ class Item:
         :param price: Цена за единицу товара.
         :param quantity: Количество товара в магазине.
         """
-        self.name = name
-
+        self.__name = name
         self.price = price
         self.quantity = quantity
+        Item.all.append(self)
 
+    @property
+    def name(self):
+        return self.__name
+
+    @name.setter
+    def name(self, name_string: str):
+        if len(name_string) >= 10:
+            self.__name = name_string[:10] + '...'
+        else:
+            self.__name = name_string
 
     def calculate_total_price(self) -> float:
         """
@@ -32,7 +40,6 @@ class Item:
         """
         return self.price * self.quantity
 
-
     def apply_discount(self) -> float:
         """
         Применяет установленную скидку для конкретного товара.
@@ -40,19 +47,25 @@ class Item:
         self.price = self.price * Item.pay_rate
         return self.price
 
-    def instantiate_from_csv(self) -> list:
-        with open('C:/Users/007sh/Desktop/electronics-shop-project/src/items.csv', 'r') as csvfile:
+    @classmethod
+    def instantiate_from_csv(cls, filename='C:/Users/007sh/Desktop/electronics-shop-project/src/items.csv'):
+        """
+        Инициализирует экземпляры класса Item данными из файла src/items.csv
+        """
+
+        with open(filename, newline='') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
-                print(dict(row))
+                name = row['name']
+                price = cls.string_to_number(row['price'])
+                quantity = int(row['quantity'])
+                cls(name, price, quantity)
 
 
+    @staticmethod
+    def string_to_number(string: str) -> float:
+        """
+        Возвращает число из числа-строки
+        """
+        return int(float(string))
 
-
-
-    def string_to_number(self=str) -> int:
-
-        pass
-
-item = Item('Телефон', 10000, 5)
-print(Item.instantiate_from_csv(self=item))
