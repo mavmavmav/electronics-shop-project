@@ -36,7 +36,11 @@ class Item:
 
     @name.setter
     def name(self, name_string: str):
-        self.__name = name_string
+        if len(name_string) >= 10:
+            self.__name = name_string[:10] + '...'
+        else:
+            self.__name = name_string
+
 
     def calculate_total_price(self) -> float:
         """
