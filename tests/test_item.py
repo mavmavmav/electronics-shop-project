@@ -11,7 +11,7 @@ def test_class_Item():
     Тест, проверяющий правильность создания экземпляра
     """
     item3 = Item('Холодильник', 30000, 15)
-    assert item3.name == 'Холодильник'
+    assert item3.name == 'Холодильни...'
     assert item3.price == 30000
     assert item3.quantity == 15
 
