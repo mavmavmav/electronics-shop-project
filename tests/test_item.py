@@ -5,6 +5,7 @@ item1 = Item("Смартфон", 10000, 20)
 item2 = Item("Ноутбук", 20000, 5)
 item4 = Item("Холодильная камера", 36000, 7)
 
+
 def test_class_Item():
     """
     Тест, проверяющий правильность создания экземпляра
@@ -54,8 +55,18 @@ def test_instantiate_from_csv():
     assert item1.price == 100
     assert item1.quantity == 1
 
+
 def test_string_to_number():
     assert Item.string_to_number('5') == 5
     assert Item.string_to_number('5.0') == 5
     assert Item.string_to_number('5.5') == 5
 
+
+def test_repr():
+    item1 = Item("Смартфон", 10000, 20)
+    assert repr(item1) == "Item('Смартфон', 10000, 20)"
+
+
+def test_str():
+    item1 = Item("Смартфон", 10000, 20)
+    assert str(item1) == 'Смартфон'
