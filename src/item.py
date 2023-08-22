@@ -1,4 +1,5 @@
 import csv
+import os
 
 
 class Item:
@@ -7,6 +8,7 @@ class Item:
     """
     pay_rate = 1.0
     all = []
+    CSV_PATH = os.path.join(os.path.dirname(__file__), 'items.csv')
 
     def __init__(self, name: str, price: float, quantity: int) -> None:
         """
@@ -20,6 +22,12 @@ class Item:
         self.price = price
         self.quantity = quantity
         Item.all.append(self)
+
+    def __str__(self):
+        return f'{self.__name}'
+
+    def __repr__(self):
+        return f"Item('{self.__name}', {self.price}, {self.quantity})"
 
     @property
     def name(self):
@@ -53,7 +61,7 @@ class Item:
         Инициализирует экземпляры класса Item данными из файла src/items.csv
         """
 
-        with open(filename, newline='') as csvfile:
+        with open(cls.CSV_PATH, newline='') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
                 name = row['name']
@@ -61,11 +69,9 @@ class Item:
                 quantity = int(row['quantity'])
                 cls(name, price, quantity)
 
-
     @staticmethod
     def string_to_number(string: str) -> float:
         """
         Возвращает число из числа-строки
         """
         return int(float(string))
-
