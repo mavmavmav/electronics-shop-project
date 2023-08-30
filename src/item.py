@@ -25,10 +25,23 @@ class Item:
         Item.all.append(self)
 
     def __str__(self):
+        """
+        Метод для отображения информации для пользователя
+        """
         return f'{self.__name}'
 
     def __repr__(self):
+        """
+        Метод для отображения информации для разработчика
+        """
         return f"Item('{self.__name}', {self.price}, {self.quantity})"
+
+    def __add__(self, other):
+        """
+        Метод для операций сложения
+        """
+        if isinstance(other, self.__class__):
+            return self.quantity + other.quantity
 
     @property
     def name(self):
@@ -40,7 +53,6 @@ class Item:
             self.__name = name_string[:10] + '...'
         else:
             self.__name = name_string
-
 
     def calculate_total_price(self) -> float:
         """
