@@ -6,7 +6,7 @@ item2 = Item("Ноутбук", 20000, 5)
 item4 = Item("Холодильная камера", 36000, 7)
 
 
-def test_class_Item():
+def test_class_item():
     """
     Тест, проверяющий правильность создания экземпляра
     """
@@ -43,17 +43,17 @@ def test_name_length():
 
 def test_instantiate_from_csv():
     """
-    тест, проверяющий создание объектов из файла .csv
+    Тест, проверяющий создание объектов из файла .csv
     и правильность чтения объектов
     """
     Item.all = []
     Item.instantiate_from_csv()  # создание объектов из данных файла
     assert len(Item.all) == 5  # в файле 5 записей с данными по товарам
 
-    item1 = Item.all[0]
-    assert item1.name == 'Смартфон'
-    assert item1.price == 100
-    assert item1.quantity == 1
+    item88 = Item.all[0]
+    assert item88.name == 'Смартфон'
+    assert item88.price == 100
+    assert item88.quantity == 1
 
 
 def test_string_to_number():
@@ -63,10 +63,15 @@ def test_string_to_number():
 
 
 def test_repr():
-    item1 = Item("Смартфон", 10000, 20)
-    assert repr(item1) == "Item('Смартфон', 10000, 20)"
+    item99 = Item("Смартфон", 10000, 20)
+    assert repr(item99) == "Item('Смартфон', 10000, 20)"
 
 
 def test_str():
-    item1 = Item("Смартфон", 10000, 20)
     assert str(item1) == 'Смартфон'
+    assert str(item2) == 'Ноутбук'
+
+
+def test_item_add():
+    assert item1 + item2 == 25
+    assert item4 + item1 == 27
