@@ -16,10 +16,8 @@ class Item:
         :param price: Цена за единицу товара.
         :param quantity: Количество товара в магазине.
         """
-        if len(name) >= 10:
-            self.__name = name[:10] + '...'
-        else:
-            self.__name = name
+        super().__init__()
+        self.__name = name
         self.price = price
         self.quantity = quantity
         Item.all.append(self)
@@ -89,3 +87,5 @@ class Item:
         Возвращает число из числа-строки
         """
         return int(float(string))
+
+
