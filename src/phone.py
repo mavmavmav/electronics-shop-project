@@ -9,15 +9,6 @@ class Phone(Item):
         else:
             raise ValueError('Количество сим-карт должно быть больше "0"')
 
-    def __add__(self, other):
-        """
-        Метод для операций сложения экземпляров класса
-        с проверкой отношений экземпляров
-        """
-        if isinstance(other, self.__class__):
-            return self.quantity + other.quantity
-        raise Exception
-
     def __repr__(self):
         return f"{self.__class__.__name__}('{self.name}', {self.price}, {self.quantity}, {self.number_of_sim})"
 
