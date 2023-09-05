@@ -1,4 +1,5 @@
 import csv
+from src.errors import InstantiateCSVError
 
 
 class Item:
@@ -21,6 +22,10 @@ class Item:
         self.price = price
         self.quantity = quantity
         Item.all.append(self)
+        if len(self.name) >= 10:
+            self.__name = self.name[:10] + '...'
+        else:
+            self.__name = self.name
 
     def __str__(self):
         """
@@ -41,6 +46,22 @@ class Item:
         if isinstance(other, self.__class__):
             return self.quantity + other.quantity
 
+    @classmethod
+    def instantiate_from_csv(cls, filename='../src/items.csv'):
+        """
+        Инициализирует экземпляры класса Item данными из файла src/items.csv
+        """
+        cls.all = []
+        try:
+            with open(filename, encoding='pt154') as csvfile:
+                reader = csv.DictReader(csvfile)
+                if len(reader.fieldnames) != 3:
+                    raise InstantiateCSVError()
+                for ex in reader:
+                    cls(name=ex['name'], price=float(ex['price']), quantity=int(ex['quantity']))
+        except FileNotFoundError:
+            print("Отсутствует файл item.csv")
+
     @property
     def name(self):
         return self.__name
@@ -51,9 +72,6 @@ class Item:
             self.__name = name_string[:10] + '...'
         else:
             self.__name = name_string
-
-
-
 
     def calculate_total_price(self) -> float:
         """
@@ -70,25 +88,9 @@ class Item:
         self.price = self.price * Item.pay_rate
         return self.price
 
-    @classmethod
-    def instantiate_from_csv(cls, filename='../src/items.csv'):
-        """
-        Инициализирует экземпляры класса Item данными из файла src/items.csv
-        """
-        cls.all = []
-        with open(filename, newline='') as csvfile:
-            reader = csv.DictReader(csvfile)
-            for row in reader:
-                name = row['name']
-                price = cls.string_to_number(row['price'])
-                quantity = int(row['quantity'])
-                cls(name, price, quantity)
-
     @staticmethod
     def string_to_number(string: str) -> float:
         """
         Возвращает число из числа-строки
         """
         return int(float(string))
-
-
