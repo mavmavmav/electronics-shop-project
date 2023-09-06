@@ -1,5 +1,9 @@
 """Здесь надо написать тесты с использованием pytest для модуля item."""
+import pytest
+
 from src.item import Item, InstantiateCSVError
+import csv
+
 
 item1 = Item("Смартфон", 10000, 20)
 item2 = Item("Ноутбук", 20000, 5)
@@ -78,7 +82,13 @@ def test_item_add():
 
 
 def test_item_exceptions():
-    Item.instantiate_from_csv()
-    assert FileNotFoundError
-    Item.instantiate_from_csv()
-    assert InstantiateCSVError
+    with pytest.raises(FileNotFoundError):
+        open('test_items_items.csv', encoding='pt154')
+
+    with pytest.raises(InstantiateCSVError) as e:
+        with open('test_items.csv', encoding='pt154') as csvfile:
+            reader = csv.DictReader(csvfile)
+            if len(reader.fieldnames) != 3:
+                raise InstantiateCSVError
+
+
